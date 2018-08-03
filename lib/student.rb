@@ -41,12 +41,12 @@ class Student
       self.update
     else
       sql = <<-SQL
-        INSERT INTO students (name, grade)
+        INSERT INTO students (name, grade) 
         VALUES (?, ?)
       SQL
       DB[:conn].execute(sql, self.name, self.grade)
       @id = DB[:conn].execute("SELECT last_insert_rowid() FROM students")[0][0]
-    end
+    end 
   end
 
 
@@ -57,6 +57,15 @@ class Student
 
   def self.new_from_db(row)
     self.new(row[0], row[1], row[2])
+  end
+
+  def .find_by_name(name)
+    sql = <<-SQL
+    SELECT name FROM students
+    WHERE name = ?
+    LIMIT 1
+    SQL
+    DB[:conn]
   end
 
 end
